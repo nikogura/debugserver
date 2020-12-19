@@ -48,10 +48,13 @@ Just prints out what you send it.  Useful for debugging http clients that may or
 		})
 
 		if len(args) > 0 {
-			port, err := strconv.Atoi(args[0])
+			p, err := strconv.Atoi(args[0])
 			if err != nil {
 				log.Fatalf("Can't convert %d to an integer", port)
 			}
+
+			port = p
+
 		}
 
 		addr := fmt.Sprintf(":%d", port)
