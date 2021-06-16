@@ -26,6 +26,8 @@ import (
 )
 
 var port int
+var certFile string
+var keyFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -61,7 +63,12 @@ Just prints out what you send it.  Useful for debugging http clients that may or
 
 		fmt.Printf("Debug Server Listening on %s\nAll requests will be logged here.\n", addr)
 
-		http.ListenAndServe(addr, nil)
+		if certFile != "" && keyFile != "" {
+			http.ListenAndServeTLS(addr, certFile, keyFile, nil)
+		} else {
+			http.ListenAndServe(addr, nil)
+		}
+
 	},
 }
 
@@ -76,4 +83,6 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().IntVarP(&port, "port", "p", 8888, "Port on which to listen")
+	rootCmd.Flags().StringVarP(&certFile, "cert", "c", "", "TLS Certificate File")
+	rootCmd.Flags().StringVarP(&keyFile, "key", "k", "", "TLS Key File")
 }
