@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@ import (
 	"strconv"
 )
 
+var address string
 var port int
 var certFile string
 var keyFile string
@@ -59,7 +60,7 @@ Just prints out what you send it.  Useful for debugging http clients that may or
 
 		}
 
-		addr := fmt.Sprintf(":%d", port)
+		addr := fmt.Sprintf("%s:%d", address, port)
 
 		fmt.Printf("Debug Server Listening on %s\nAll requests will be logged here.\n", addr)
 
@@ -82,6 +83,7 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.Flags().StringVarP(&address, "address", "a", "", "Address on which to listen")
 	rootCmd.Flags().IntVarP(&port, "port", "p", 8888, "Port on which to listen")
 	rootCmd.Flags().StringVarP(&certFile, "cert", "c", "", "TLS Certificate File")
 	rootCmd.Flags().StringVarP(&keyFile, "key", "k", "", "TLS Key File")
